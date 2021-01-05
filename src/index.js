@@ -1,10 +1,24 @@
-var http = require("http"); //permite ejecutar js de parte del servidor
-var url = require("url");
-var querystring = require("querystring");
-var {info, error} = require("./modules/my-log");
-var {countries} = require("countries-list");
+const express = require('express');
 
-var server = http.createServer(function(request, response){
+
+const { info, error } = require('./modules/my-log');
+const { countries } = require('countries-list');
+
+const app = express();
+
+app.get('/', function(request, response) {
+  response.send('HELLO');
+});
+app.get('/info', function(request, response) {
+  info('hola info');
+  response.send('info 2');
+});
+app.get('*', function(request, response) {
+  response.status(404).send('NOT FOUND');
+});
+
+
+/*var server = http.createServer(function(request, response){
 
     var parsed = url.parse(request.url);
     console.log("parsed:",parsed);
@@ -46,7 +60,9 @@ var server = http.createServer(function(request, response){
         response.write("<html><body><p>NOT FOUND</p></body></html>");
         response.end();
     }
+    });*/
 
+
+app.listen(4000, function() {
+  console.log('running on 4000');
 });
-server.listen(4000);
-console.log("running on 4000");
